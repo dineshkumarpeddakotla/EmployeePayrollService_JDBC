@@ -3,6 +3,7 @@ package com.databaseservice;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class EmployeePayrollService {
@@ -86,6 +87,13 @@ public class EmployeePayrollService {
 
     }
 
+    /**
+     * created readEmployeePayrollDataForDateRange method to read data from database in particular date range
+     * @param ioService ioService
+     * @param startDate start date in LocalDate format
+     * @param endDate end date in LocalDate format
+     * @return employeePayrollDBService.getEmployeePayrollDataForDateRange(startDate,endDate)
+     */
     public List<EmployeePayrollData> readEmployeePayrollDataForDateRange(IOService ioService,
                                                                          LocalDate startDate, LocalDate endDate) {
         if (ioService.equals(IOService.DB_IO))
@@ -93,6 +101,60 @@ public class EmployeePayrollService {
         return null;
     }
 
+    /**
+     * created readAverageSalaryByGender method to read average salary by gender data from database
+     * @param ioService ioService
+     * @return employeePayrollDBService.getAverageSalaryByGender()
+     */
+    public Map<String, Double> readAverageSalaryByGender(IOService ioService) {
+        if (ioService.equals(IOService.DB_IO))
+            return employeePayrollDBService.getAverageSalaryByGender();
+        return null;
+    }
+
+    /**
+     * created readSumSalaryByGender method to read sum salary by gender data from database
+     * @param ioService ioService
+     * @return employeePayrollDBService.getSumSalaryByGender()
+     */
+    public Map<String, Double> readSumSalaryByGender(IOService ioService) {
+        if (ioService.equals(IOService.DB_IO))
+            return employeePayrollDBService.getSumSalaryByGender();
+        return null;
+    }
+
+    /**
+     * created readMinimumSalaryByGender method to read minimum salary by gender data from database
+     * @param ioService ioService
+     * @return employeePayrollDBService.getMinimumSalaryByGender()
+     */
+    public Map<String, Double> readMinimumSalaryByGender(IOService ioService) {
+        if (ioService.equals(IOService.DB_IO))
+            return employeePayrollDBService.getMinimumSalaryByGender();
+        return null;
+    }
+
+    /**
+     * created readMaximumSalaryByGender method to read maximum salary by gender data from database
+     * @param ioService ioService
+     * @return employeePayrollDBService.getMaximumSalaryByGender()
+     */
+    public Map<String, Double> readMaximumSalaryByGender(IOService ioService) {
+        if (ioService.equals(IOService.DB_IO))
+            return employeePayrollDBService.getMaximumSalaryByGender();
+        return null;
+    }
+
+    /**
+     *created readCountNameByGender method to read count name by gender data from database
+     * @param ioService ioService
+     * @return employeePayrollDBService.getCountNameByGender()
+     */
+    public Map<String, Integer> readCountNameByGender(IOService ioService) {
+        if (ioService.equals(IOService.DB_IO))
+            return employeePayrollDBService.getCountNameByGender();
+        return null;
+    }
     /**
      * created checkEmployeePayrollSyncWithDB method to check whether updated data is synced with database or not
      * @param name name

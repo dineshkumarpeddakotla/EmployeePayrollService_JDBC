@@ -3,7 +3,9 @@ package com.databaseservice;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeePayrollDBService  {
     //declared private variables
@@ -121,6 +123,116 @@ public class EmployeePayrollDBService  {
             e.printStackTrace();
         }
         return employeePayrollDataList;
+    }
+
+    /**
+     * created getAverageSalaryByGender method to get average salary group by gender data from database
+     * by using mysql query in the method and mapped gender and averageSalary
+     * @return genderToAverageSalaryMap
+     */
+    public Map<String, Double> getAverageSalaryByGender() {
+        String sql = "SELECT gender, AVG(salary) as average_salary FROM employee_payroll GROUP BY GENDER;";
+        Map<String, Double> genderToAverageSalaryMap = new HashMap<>();
+        try (Connection connection = this.getConnection()){
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String gender = resultSet.getString("gender");
+                Double averageSalary = resultSet.getDouble("average_salary");
+                genderToAverageSalaryMap.put(gender, averageSalary);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return genderToAverageSalaryMap;
+    }
+
+    /**
+     * created getAverageSalaryByGender method to get sum salary group by gender data from database
+     * by using mysql query in the method and mapped gender and sumSalary
+     * @return genderToSumSalaryMap
+     */
+    public Map<String, Double> getSumSalaryByGender() {
+        String sql = "SELECT gender, SUM(salary) as sum_salary FROM employee_payroll GROUP BY GENDER;";
+        Map<String, Double> genderToSumSalaryMap = new HashMap<>();
+        try (Connection connection = this.getConnection()){
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String gender = resultSet.getString("gender");
+                Double sumSalary = resultSet.getDouble("sum_salary");
+                genderToSumSalaryMap.put(gender, sumSalary);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return genderToSumSalaryMap;
+    }
+
+    /**
+     * created getMinimumSalaryByGender method to get minimum salary group by gender data from database
+     * by using mysql query in the method and mapped gender and minimumSalary
+     * @return genderToMinimumSalaryMap
+     */
+    public Map<String, Double> getMinimumSalaryByGender() {
+        String sql = "SELECT gender, Min(salary) as minimum_salary FROM employee_payroll GROUP BY GENDER;";
+        Map<String, Double> genderToMinimumSalaryMap = new HashMap<>();
+        try (Connection connection = this.getConnection()){
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String gender = resultSet.getString("gender");
+                Double minimumSalary = resultSet.getDouble("minimum_salary");
+                genderToMinimumSalaryMap.put(gender, minimumSalary);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return genderToMinimumSalaryMap;
+    }
+
+    /**
+     * created getMaximumSalaryByGender method to get maximum salary group by gender data from database
+     * by using mysql query in the method and mapped gender and maximumSalary
+     * @return genderToMaximumSalaryMap
+     */
+    public Map<String, Double> getMaximumSalaryByGender() {
+        String sql = "SELECT gender, Max(salary) as maximum_salary FROM employee_payroll GROUP BY GENDER;";
+        Map<String, Double> genderToMaximumSalaryMap = new HashMap<>();
+        try (Connection connection = this.getConnection()){
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String gender = resultSet.getString("gender");
+                Double maximumSalary = resultSet.getDouble("maximum_salary");
+                genderToMaximumSalaryMap.put(gender, maximumSalary);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return genderToMaximumSalaryMap;
+    }
+
+    /**
+     * created getCountNameByGender method to get count name group by gender data from database
+     * by using mysql query in the method and mapped gender and countName
+     * @return genderToCountNameMap
+     */
+    public Map<String, Integer> getCountNameByGender() {
+        String sql = "SELECT gender, COUNT(name) as count_name FROM employee_payroll GROUP BY GENDER;";
+        Map<String, Integer> genderToCountNameMap = new HashMap<>();
+        try (Connection connection = this.getConnection()){
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String gender = resultSet.getString("gender");
+                Integer countName = resultSet.getInt("count_name");
+                genderToCountNameMap.put(gender, countName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return genderToCountNameMap;
     }
 
     /**
