@@ -48,11 +48,75 @@ public class EmployeePayrollDBService  {
      */
     public List<EmployeePayrollData> readData() {
         String sql = "SELECT * FROM employee_payroll; ";
+        return this.getEmployeePayrollDataUDINGDB(sql);
+    }
+
+    /**
+     * created getEmployeePayrollDataForDateRange method to retrieve data from data base in a particular date range
+     * @param startDate startDate in LocalDate format
+     * @param endDate endDate in LocalDate format
+     * @return this.getEmployeePayrollDataUDINGDB(sql)
+     */
+    public List<EmployeePayrollData> getEmployeePayrollDataForDateRange(LocalDate startDate, LocalDate endDate) {
+        String sql = String.format("SELECT * FROM employee_payroll WHERE START BETWEEN '%s' AND '%s';",
+                Date.valueOf(startDate),Date.valueOf(endDate));
+        return this.getEmployeePayrollDataUDINGDB(sql);
+    }
+
+    /**
+     * created getEmployeePayrollDataUDINGDB method to retrieve data from database
+     * by taking sql query input from
+     * @param sql getEmployeePayrollDataForDateRange
+     * @return employeePayrollDataList;
+     */
+    private List<EmployeePayrollData> getEmployeePayrollDataUDINGDB(String sql) {
         List<EmployeePayrollData> employeePayrollDataList = new ArrayList<>();
         try (Connection connection = this.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             employeePayrollDataList = this.getEmployeePayrollData(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employeePayrollDataList;
+    }
+
+    /**
+     * created getEmployeePayrollData method to get data from database
+     * added try and catch block to throw sql exception
+     * @param name name
+     * @return employeePayrollDataList
+     */
+    public List<EmployeePayrollData> getEmployeePayrollData(String name) {
+        List<EmployeePayrollData> employeePayrollDataList = null;
+        if (this.employeePayrollDataStatement == null)
+            this.prepareStatementForEmployeeData();
+        try {
+            employeePayrollDataStatement.setString(1, name);
+            ResultSet resultSet = employeePayrollDataStatement.executeQuery();
+            employeePayrollDataList = this.getEmployeePayrollData(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employeePayrollDataList;
+    }
+
+    /**
+     * created private getEmployeePayrollData method to get all data from database table
+     * added try and catch block to throw sql exception
+     * @param resultSet resultSet
+     * @return employeePayrollDataList
+     */
+    private List<EmployeePayrollData> getEmployeePayrollData(ResultSet resultSet) {
+        List<EmployeePayrollData> employeePayrollDataList =new ArrayList<>();
+        try {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                double salary = resultSet.getDouble("salary");
+                LocalDate startDate = resultSet.getDate("start").toLocalDate();
+                employeePayrollDataList.add(new EmployeePayrollData(id, name, salary,startDate));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,48 +150,6 @@ public class EmployeePayrollDBService  {
             sqlException.printStackTrace();
         }
         return 0;
-    }
-
-    /**
-     * created getEmployeePayrollData method to get data from database
-     * added try and catch block to throw sql exception
-     * @param name name
-     * @return employeePayrollDataList
-     */
-    public List<EmployeePayrollData> getEmployeePayrollData(String name) {
-        List<EmployeePayrollData> employeePayrollDataList = null;
-        if (this.employeePayrollDataStatement == null)
-            this.prepareStatementForEmployeeData();
-        try {
-            employeePayrollDataStatement.setString(1, name);
-            ResultSet resultSet = employeePayrollDataStatement.executeQuery();
-            employeePayrollDataList = this.getEmployeePayrollData(resultSet);
-        } catch (SQLException e) {
-         e.printStackTrace();
-        }
-        return employeePayrollDataList;
-    }
-
-    /**
-     * created private getEmployeePayrollData method to get all data from database table
-     * added try and catch block to throw sql exception
-     * @param resultSet resultSet
-     * @return employeePayrollDataList
-     */
-    private List<EmployeePayrollData> getEmployeePayrollData(ResultSet resultSet) {
-        List<EmployeePayrollData> employeePayrollDataList =new ArrayList<>();
-        try {
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                double salary = resultSet.getDouble("salary");
-                LocalDate startDate = resultSet.getDate("start").toLocalDate();
-                employeePayrollDataList.add(new EmployeePayrollData(id, name, salary,startDate));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return employeePayrollDataList;
     }
 
     /**
