@@ -10,7 +10,7 @@ public class EmployeePayrollDBService  {
     private PreparedStatement employeePayrollDataStatement;
     private static EmployeePayrollDBService employeePayrollDBService;
 
-    //created default constructor
+    //created private default constructor
     private EmployeePayrollDBService() {
 
     }

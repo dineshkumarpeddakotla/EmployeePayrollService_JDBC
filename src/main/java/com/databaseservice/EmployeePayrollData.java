@@ -59,7 +59,7 @@ public class EmployeePayrollData {
         this.salary = salary;
     }
 
-    //Override toSting method to return data
+    //Override toSting method
     @Override
     public String toString() {
         return "EmployeePayRollData{" +
