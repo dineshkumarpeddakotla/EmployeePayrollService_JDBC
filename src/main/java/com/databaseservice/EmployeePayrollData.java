@@ -8,18 +8,33 @@ public class EmployeePayrollData {
     private String name;
     private Double salary;
 
+    /**
+     * created a parameterized constructor
+     * @param id id
+     * @param name name
+     * @param salary salary
+     */
     public EmployeePayrollData(int id, String name, Double salary) {
         setId(id);
         setName(name);
         setSalary(salary);
     }
 
+    /**
+     * overloading  parameterized constructor
+     * @param id id
+     * @param name name
+     * @param salary salary
+     * @param startDate startDate
+     */
     public EmployeePayrollData(int id, String name, Double salary,LocalDate startDate) {
         setId(id);
         setName(name);
         setSalary(salary);
         this.startDate = startDate;
     }
+
+    //added getters and setters for id, name, salary
     public int getId() {
         return id;
     }
@@ -44,22 +59,23 @@ public class EmployeePayrollData {
         this.salary = salary;
     }
 
+    //Override toSting method to return data
     @Override
     public String toString() {
         return "EmployeePayRollData{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", salary=" + salary +
-                '}';
+                '}'+'\n';
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == 0) return true;
-//        if (this == null || getClass() != o.getClass()) return false;
-//        EmployeePayrollData that = (EmployeePayrollData) o;
-//        return id == that.id &&
-//                     Double.compare(that.getSalary(), salary) == 0 &&
-//                     name.equals(that.getName());
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EmployeePayrollData that = (EmployeePayrollData) o;
+        return id == that.id &&
+                     Double.compare(that.getSalary(), salary) == 0 &&
+                     name.equals(that.getName());
+    }
 }
