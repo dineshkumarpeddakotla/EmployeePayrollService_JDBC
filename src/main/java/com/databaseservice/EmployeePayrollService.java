@@ -10,7 +10,7 @@ public class EmployeePayrollService {
      * created ioService enum class for CONSOLE_IO, FILE_IO,DB_IO
      */
     public enum IOService {
-        CONSOLE_IO, FILE_IO,DB_IO
+        CONSOLE_IO, FILE_IO, DB_IO
     }
     //declared private variables
     private List<EmployeePayrollData> employeePayrollList;
@@ -56,16 +56,15 @@ public class EmployeePayrollService {
         return this.employeePayrollList;
     }
 
-    /**+
+    /**
      * created updateEmployeeSalary method to update employee salary to database
      * @param name name
      * @param salary salary
      */
     public void updateEmployeeSalary(String name, double salary) {
         int result = employeePayrollDBService.updateEmployeeData(name, salary);
-        if ( result == 0) {
+        if ( result == 0)
             return;
-        }
         EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
         if (employeePayrollData != null) employeePayrollData.setSalary(salary);
     }
