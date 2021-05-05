@@ -1,5 +1,6 @@
 package com.databaseservice;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -83,6 +84,13 @@ public class EmployeePayrollService {
                                                       .orElse(null);
         return employeePayrollData;
 
+    }
+
+    public List<EmployeePayrollData> readEmployeePayrollDataForDateRange(IOService ioService,
+                                                                         LocalDate startDate, LocalDate endDate) {
+        if (ioService.equals(IOService.DB_IO))
+            return employeePayrollDBService.getEmployeePayrollDataForDateRange(startDate,endDate);
+        return null;
     }
 
     /**
