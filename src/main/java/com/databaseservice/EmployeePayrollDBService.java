@@ -12,13 +12,13 @@ public class EmployeePayrollDBService  {
     private PreparedStatement employeePayrollDataStatement;
     private static EmployeePayrollDBService employeePayrollDBService;
 
-    //created private default constructor
+    // private default constructor
     private EmployeePayrollDBService() {
 
     }
 
     /**
-     * created singleton design pattern to single instance by using getInstance() method
+     * used singleton design pattern to use  single instance at a time  by using getInstance() method
      * @return employeePayrollDBService
      */
     public static EmployeePayrollDBService getInstance() {
@@ -77,6 +77,7 @@ public class EmployeePayrollDBService  {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             employeePayrollDataList = this.getEmployeePayrollData(resultSet);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -276,5 +277,34 @@ public class EmployeePayrollDBService  {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * added new employee to database
+     * @param employeeName employee name
+     * @param gender gender
+     * @param salary salary
+     * @param startDate start date
+     * @return employeePayrollData
+     */
+    public EmployeePayrollData addEmployeeToPayroll(String employeeName, String gender, double salary, LocalDate startDate) {
+        int employeeId = -1;
+        EmployeePayrollData employeePayrollData = null;
+        String sql = String.format("INSERT INTO employee_payroll (name, gender, salary, start) " +
+                                   "VALUES('%s', '%s', '%s', '%s');", employeeName, gender, salary, startDate);
+
+        try(Connection connection = this.getConnection()) {
+            Statement statement = connection.createStatement();
+            int rowAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
+            if (rowAffected == 1) {
+                ResultSet resultSet = statement.getGeneratedKeys();
+                if (resultSet.next())
+                    employeeId = resultSet.getInt(1);
+            }
+            employeePayrollData = new EmployeePayrollData(employeeId, employeeName, salary, startDate);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employeePayrollData;
     }
 }

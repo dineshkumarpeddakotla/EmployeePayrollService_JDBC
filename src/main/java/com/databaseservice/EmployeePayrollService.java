@@ -166,6 +166,17 @@ public class EmployeePayrollService {
     }
 
     /**
+     * added new employee to employeePayrollList
+     * @param employeeName employeeName
+     * @param gender gender
+     * @param salary salary
+     * @param startDate start date
+     */
+    public void addEmployeeToPayroll(String employeeName, String gender, double salary, LocalDate startDate) {
+        employeePayrollList.add(employeePayrollDBService.addEmployeeToPayroll(employeeName, gender, salary, startDate));
+    }
+
+    /**
      * created writeEmployeePayrollData method to write data by taking input from console
      * @param ioService ioService
      */
