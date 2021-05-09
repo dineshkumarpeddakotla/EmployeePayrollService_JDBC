@@ -79,7 +79,7 @@ public class TestDataBaseService {
         employeePayrollService.readEmployeePayrollData(DB_IO);
         Map<String, Double> minimumSalaryByGender = employeePayrollService.readMinimumSalaryByGender(DB_IO);
         Assertions.assertTrue(minimumSalaryByGender.get("M").equals(400000.00) &&
-                minimumSalaryByGender.get("F").equals(450000.00));
+                              minimumSalaryByGender.get("F").equals(450000.00));
     }
 
     /**
@@ -91,7 +91,7 @@ public class TestDataBaseService {
         employeePayrollService.readEmployeePayrollData(DB_IO);
         Map<String, Double> maximumSalaryByGender = employeePayrollService.readMaximumSalaryByGender(DB_IO);
         Assertions.assertTrue(maximumSalaryByGender.get("M").equals(600000.00) &&
-                maximumSalaryByGender.get("F").equals(500000.00));
+                              maximumSalaryByGender.get("F").equals(500000.00));
     }
 
     /**
@@ -103,7 +103,7 @@ public class TestDataBaseService {
         employeePayrollService.readEmployeePayrollData(DB_IO);
         Map<String, Integer> countNameByGender = employeePayrollService.readCountNameByGender(DB_IO);
         Assertions.assertTrue(countNameByGender.get("M").equals(3) &&
-                countNameByGender.get("F").equals(2));
+                              countNameByGender.get("F").equals(2));
     }
 
     /**
