@@ -291,6 +291,7 @@ public class EmployeePayrollDBService  {
         EmployeePayrollData employeePayrollData = null;
         try {
             connection = this.getConnection();
+            connection.setAutoCommit(false);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -306,6 +307,12 @@ public class EmployeePayrollDBService  {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                Objects.requireNonNull(connection).rollback();
+                return employeePayrollData;
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
         }
 
         try (Statement statement = Objects.requireNonNull(connection).createStatement()){
@@ -323,11 +330,28 @@ public class EmployeePayrollDBService  {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        }
+        try {
+            Objects.requireNonNull(connection).commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
             try {
-                Objects.requireNonNull(connection).close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+                Objects.requireNonNull(connection).rollback();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }
+        try {
+            Objects.requireNonNull(connection).commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
