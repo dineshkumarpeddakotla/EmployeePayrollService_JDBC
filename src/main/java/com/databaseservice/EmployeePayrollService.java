@@ -33,7 +33,7 @@ public class EmployeePayrollService {
     }
 
     /**
-     * created readEmployeePayrollData from console
+     * created readEmployeePayrollData method to read data from console
      * @param consoleInputReader consoleInputReader
      */
     private void readEmployeePayrollData(Scanner consoleInputReader) {
